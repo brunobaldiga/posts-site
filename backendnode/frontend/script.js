@@ -1,20 +1,28 @@
 let allPosts = [];
 
+const API_URL = "https://posts-sites.onrender.com";
+
 async function loadPosts() {
   const loader = document.getElementById("loader");
   const container = document.getElementById("posts");
 
   loader.style.display = "block";
 
-  const res = await fetch("http://localhost:3000/posts");
-  const data = await res.json();
+  try {
+    const res = await fetch(`${API_URL}/posts`);
+    const data = await res.json();
 
-  allPosts = data;
+    allPosts = data;
 
-  setTimeout(() => {
+    setTimeout(() => {
+      loader.style.display = "none";
+      renderPosts(allPosts);
+    }, 800);
+
+  } catch (err) {
+    console.error("Erro ao buscar posts:", err);
     loader.style.display = "none";
-    renderPosts(allPosts);
-  }, 800); // efeito loading fake
+  }
 }
 
 function renderPosts(posts) {

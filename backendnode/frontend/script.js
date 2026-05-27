@@ -7,11 +7,16 @@ async function loadPosts() {
   const container = document.getElementById("posts");
 
   loader.style.display = "block";
+  container.innerHTML = "";
 
   try {
     const res = await fetch(`${API_URL}/posts`);
-    const data = await res.json();
 
+    if (!res.ok) {
+      throw new Error("Servidor retornou erro");
+    }
+
+    const data = await res.json();
     allPosts = data;
 
     setTimeout(() => {
@@ -20,8 +25,17 @@ async function loadPosts() {
     }, 800);
 
   } catch (err) {
-    console.error("Erro ao buscar posts:", err);
+    console.error(err);
+
     loader.style.display = "none";
+
+    container.innerHTML = `
+      <div class="error-box">
+        <h2>⚠️ O servidor caiu</h2>
+        <p>Mas já estamos tentando resolver isso. Tente novamente em instantes.</p>
+        <button onclick="loadPosts()">Tentar novamente</button>
+      </div>
+    `;
   }
 }
 

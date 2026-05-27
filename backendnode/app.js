@@ -2,7 +2,10 @@ const express = require("express");
 const cors = require("cors");
 
 const app = express();
+const path = require("path");
 
+// serve arquivos estáticos (HTML, CSS, JS)
+app.use(express.static(path.join(__dirname, "frontend")));
 app.use(cors());
 app.use(express.json());
 
@@ -56,5 +59,5 @@ app.get("/posts/:id", (req, res) => {
 });
 
 app.get("/", (req, res) => {
-  res.send("API rodando corretamente 🚀");
+  res.sendFile(path.join(__dirname, "frontend", "index.html"));
 });

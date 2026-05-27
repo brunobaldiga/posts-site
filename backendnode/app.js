@@ -1,15 +1,14 @@
 const express = require("express");
 const cors = require("cors");
-
-const app = express();
 const path = require("path");
 
-// serve arquivos estáticos (HTML, CSS, JS)
-app.use(express.static(path.join(__dirname, "frontend")));
+const app = express();
+
 app.use(cors());
 app.use(express.json());
+app.use(express.static(path.join(__dirname, "frontend")));
 
-// gera 30 posts automaticamente (garantido)
+// posts
 const posts = Array.from({ length: 30 }, (_, i) => {
   const id = i + 1;
 
@@ -60,4 +59,10 @@ app.get("/posts/:id", (req, res) => {
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "frontend", "index.html"));
+});
+
+// 🔥 ISSO ESTAVA FALTANDO
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`API rodando na porta ${PORT}`);
 });

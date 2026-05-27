@@ -55,8 +55,6 @@ app.get("/posts/:id", (req, res) => {
   res.json(post);
 });
 
-const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, () => {
-  console.log(`API rodando na porta ${PORT}`);
+app.get("/", (req, res) => {
+  res.send("API rodando corretamente 🚀");
 });
